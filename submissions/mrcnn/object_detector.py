@@ -4,6 +4,7 @@ import cv2
 import imgaug
 import tensorflow as tf
 import math
+import os
  
 from mrcnn.config import Config
 from mrcnn import utils
@@ -41,7 +42,8 @@ class ObjectDetector:
  
     def fit(self, X, y):
         COCO_MODEL_PATH = "mask_rcnn_coco.h5"
-        utils.download_trained_weights(COCO_MODEL_PATH)
+        if not os.path.exists(COCO_MODEL_PATH):
+            utils.download_trained_weights(COCO_MODEL_PATH)
         self.model.load_weights(COCO_MODEL_PATH, by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc", "mrcnn_bbox", "mrcnn_mask"])
  
         X_train, y_train, X_valid, y_valid=self.split_train_test(X, y)
