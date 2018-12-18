@@ -86,8 +86,8 @@ class ObjectDetector:
         # pass a regular expression to select which layers to
         # train by name pattern.
         if self.collab:
-            self.model = tf.contrib.tpu.keras_to_tpu_model(
-                self.model,
+            self.model.keras_model = tf.contrib.tpu.keras_to_tpu_model(
+                self.model.keras_model,
                 strategy=tf.contrib.tpu.TPUDistributionStrategy(
                     tf.contrib.cluster_resolver.TPUClusterResolver(
                         tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
