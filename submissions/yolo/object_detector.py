@@ -1745,6 +1745,7 @@ class ObjectDetector(object):
         for l in self.loss_layers:
             l.seen = model.seen
         self.model = model.to(device)
+        self.weights_path = 'yolo_weights.pt'
  
     def fit(self, X, y):
         params_dict = dict(self.model.named_parameters())
@@ -1763,6 +1764,7 @@ class ObjectDetector(object):
                 nsamples = train(epoch, X, y, self.model, self.loss_layers)
                 #if epoch % save_interval == 0:
                 #    savemodel(epoch, self.model, nsamples)
+                torch.save(self.model.state_dict(), self.weights_path)
             self.alr_trained = True
         except KeyboardInterrupt:
             print('\nExiting from training by interrupt!')
