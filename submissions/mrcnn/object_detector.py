@@ -13,7 +13,7 @@ from mrcnn import visualize
 from mrcnn.model import log
  
 class ObjectDetector:
-    def __init__(self, epoch_head=1, epoch_all=6, collab=False):
+    def __init__(self, epoch_head=1, epoch_all=6, tpu=False):
         self.height=256
         self.width=256
  
@@ -23,7 +23,7 @@ class ObjectDetector:
         self.config=CraterConfig()
         self.model=modellib.MaskRCNN(mode = "training", model_dir = "logs",
                                 config = self.config)
-        self.collab = collab
+        self.tpu = tpu
  
     @staticmethod
     def split_train_test(X, y, valid_ratio = 0.1):
@@ -85,7 +85,7 @@ class ObjectDetector:
         # Passing layers="all" trains all layers. You can also
         # pass a regular expression to select which layers to
         # train by name pattern.
-        if self.collab:
+        if self.tpu:
             self.model.keras_model = tf.contrib.tpu.keras_to_tpu_model(
                 self.model.keras_model,
                 strategy=tf.contrib.tpu.TPUDistributionStrategy(
