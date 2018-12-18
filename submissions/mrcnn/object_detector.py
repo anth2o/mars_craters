@@ -209,6 +209,8 @@ class CraterConfig(Config):
  
     DETECTION_MIN_CONFIDENCE = 0.95
     LEARNING_RATE = 0.01
+
+    CHECKPOINT_PATH = 'mrcnn_weights.h5'
  
  
 ############################################################
